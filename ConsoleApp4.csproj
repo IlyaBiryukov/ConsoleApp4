@@ -5,4 +5,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include=".devcontainer\devcontainer.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".devcontainer\rdp.ps1" />
+  </ItemGroup>
+
 </Project>
