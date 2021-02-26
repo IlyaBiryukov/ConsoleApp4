@@ -1,0 +1,4 @@
+{
+  "forwardPorts": [ 5900, 3390 ],
+  "postCreateCommand": ".\\.devcontainer\\rdp.ps1;"
+}
