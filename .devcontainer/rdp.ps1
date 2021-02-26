@@ -32,5 +32,6 @@ if ($Env:OS -match 'Windows')
 
 	# Write to rdp json file
 	$passwordHash = $SecureRdpUserPassword | ConvertFrom-SecureString
-	@{Type="RDP";Port=$RdpPort;User=$RdpUserName;PasswordHash=$passwordHash} | ConvertTo-Json | Out-File $RdpSettingsFile -Force
+	$hostname = hostname
+	@{Type="RDP";Port=$RdpPort;User=$RdpUserName;Domain=$hostname;PasswordHash=$passwordHash} | ConvertTo-Json | Out-File $RdpSettingsFile -Force
 }
