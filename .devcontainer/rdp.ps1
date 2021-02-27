@@ -1,7 +1,7 @@
 ﻿# Set RDP service port to 3390
 $RdpPort = 3390
-$RdpUserName = "CSRDPUSER1"
-$RdpSettingsFile = "C:/workspace/.rdp.json"
+$RdpUserName = "vsonline"
+$RdpSettingsFile = "C:/.vsonline/.rdp.json"
 
 if ($Env:OS -match 'Windows')
 {
@@ -31,7 +31,6 @@ if ($Env:OS -match 'Windows')
 	}
 
 	# Write to rdp json file
-	$passwordHash = $SecureRdpUserPassword | ConvertFrom-SecureString
 	$hostname = hostname
-	@{Type="RDP";Port=$RdpPort;User=$RdpUserName;Domain=$hostname;PasswordHash=$passwordHash} | ConvertTo-Json | Out-File $RdpSettingsFile -Force
+	@{Type="RDP";Port=$RdpPort;User=$RdpUserName;Domain=$hostname;Password=$RdpUserPassword} | ConvertTo-Json | Out-File $RdpSettingsFile -Force
 }
