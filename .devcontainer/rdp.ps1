@@ -1,6 +1,6 @@
 ﻿# Set RDP service port to 3390
 $RdpPort = 3390
-$RdpUserName = "vsonline"
+$RdpUserName = "vsonline1"
 $RdpSettingsFile = "C:/.vsonline/.rdp.json"
 
 if ($Env:OS -match 'Windows')
