@@ -20,17 +20,20 @@ if ($Env:OS -match 'Windows')
 		$RdpUserAccount | Set-LocalUser -Password $SecureRdpUserPassword 
 	}
 
+	# Get RDP port
+	$RdpPort = Get-ItemPropertyValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "PortNumber"
+
 	# Set RDP port
-	$CurrentRdpPort = Get-ItemPropertyValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "PortNumber"
-	if ($CurrentRdpPort -ne $RdpPort)
-	{
-		Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name PortNumber -Value $RdpPort -Force
-		$TermServicePid = Get-WmiObject -Class Win32_Service -Filter "Name LIKE 'TermService'" | Select-Object -ExpandProperty ProcessId
-		Stop-Process $TermServicePid -Force
-		Restart-Service "TermService" -Force -PassThru
-	}
+#	$CurrentRdpPort = Get-ItemPropertyValue -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "PortNumber"
+#	if ($CurrentRdpPort -ne $RdpPort)
+#	{
+#		Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -Name PortNumber -Value $RdpPort -Force
+#		$TermServicePid = Get-WmiObject -Class Win32_Service -Filter "Name LIKE 'TermService'" | Select-Object -ExpandProperty ProcessId
+#		Stop-Process $TermServicePid -Force
+#		Restart-Service "TermService" -Force -PassThru
+#	}
 
 	# Write to rdp json file
 	$hostname = hostname
-	@{Type="RDP";Port=$RdpPort;User=$RdpUserName;Domain=$hostname;Password=$RdpUserPassword} | ConvertTo-Json | Out-File $RdpSettingsFile -Force
+	@{Type="RDP";Port=$RdpPort;DestinationPort=3390;User=$RdpUserName;Domain=$hostname;Password=$RdpUserPassword} | ConvertTo-Json | Out-File $RdpSettingsFile -Force
 }
